@@ -1,0 +1,15 @@
+/**
+ * 
+ */
+package com.hotelService;
+
+import java.util.List;
+
+/**
+ * @author mukesh.singh
+ *
+ */
+public class HotelBean {
+	int hotelId;
+	List<RatingBean> ratingBeanList;
+}

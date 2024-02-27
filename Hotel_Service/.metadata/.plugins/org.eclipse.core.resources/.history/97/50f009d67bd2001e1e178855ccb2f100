@@ -1,0 +1,17 @@
+package com.hotelService;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/hotel")
+public class HotelController {
+	@GetMapping("/{hotelId}")
+	public HotelBean getRatingByUser(@PathVariable("hotelId") String hotelId){
+		HotelBean hotelBean=new HotelBean();
+		System.out.println("hotelId--:"+hotelId);
+		return hotelBean;
+	}
+}

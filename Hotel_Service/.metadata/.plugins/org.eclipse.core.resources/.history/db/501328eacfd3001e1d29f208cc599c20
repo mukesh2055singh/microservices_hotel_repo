@@ -1,0 +1,24 @@
+package com.swaggerUi;
+
+import java.util.ArrayList;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+
+@Configuration
+@EnableSwagger2
+@EnableOpenApi
+@EnableWebMvc
+public class SwaggerConfig {
+
+	@Bean
+	public Docket api() {
+        return new Docket(io.swagger.v3.oas.models.OpenAPI()
+                .info(new io.swagger.v3.oas.models.info.Info().title("Your API Title").description("Your API Description").version("1.0.0"))
+                .addServersItem(new io.swagger.v3.oas.models.servers.Server().url("http://localhost:8080"))
+        );
+    }
+
+}
+

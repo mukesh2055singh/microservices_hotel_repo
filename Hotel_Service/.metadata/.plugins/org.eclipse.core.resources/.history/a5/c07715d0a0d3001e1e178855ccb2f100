@@ -1,0 +1,5 @@
+package com.kafkaService;
+
+public class KafkaService {
+
+}

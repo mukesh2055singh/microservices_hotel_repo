@@ -1,0 +1,13 @@
+package com.hotelService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class HotelService {
+	@Autowired HotelRepository hotelRepository;
+	public HotelBean getHotelRatingDetails(Integer hotelId) {
+		HotelBean hotelBean=hotelRepository.findByHotelId(hotelId);
+		return hotelBean;
+	}
+}

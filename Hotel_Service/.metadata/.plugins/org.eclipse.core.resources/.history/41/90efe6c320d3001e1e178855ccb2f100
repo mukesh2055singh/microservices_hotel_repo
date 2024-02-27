@@ -1,0 +1,7 @@
+package com.hotelService;
+
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+public interface HotelRepository {
+
+}

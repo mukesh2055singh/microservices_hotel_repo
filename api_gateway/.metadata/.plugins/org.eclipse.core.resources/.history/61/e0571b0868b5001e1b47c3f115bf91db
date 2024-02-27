@@ -1,0 +1,45 @@
+package com.gatewayAuthentication;
+
+
+import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.server.ServerWebExchange;
+
+import reactor.core.publisher.Mono;
+@Service
+
+public class GatewayAuthFilter implements GlobalFilter {
+
+	@Override
+	public Mono<Void> filter(ServerWebExchange exchange,GatewayFilterChain chain) {
+		// TODO Auto-generated method stub
+		String securityServiceUrl = "http://localhost:8085/user/apiGatewayAuthentication";
+		HttpMethod httpMethod = exchange.getRequest().getMethod();
+		System.out.println("httpMethod---:"+httpMethod);
+		String requestPath = exchange.getRequest().getURI().getPath();
+		System.out.println("requestPath-----:"+requestPath);
+		if(requestPath.equals("/user/doLogin")) {
+			System.out.println("requestPath----pass mapping-:");
+			return chain.filter(exchange).then(Mono.empty());
+		}
+            return WebClient.create(securityServiceUrl)
+                    .post()
+                    .headers(headers -> headers.putAll(exchange.getRequest().getHeaders()))
+                    .exchange()
+                    .flatMap(response -> {
+                    	System.out.println("get response");
+                        if (response.statusCode().is2xxSuccessful()) {
+                            // Authentication successful, continue with the filter chain
+                        	System.out.println("get response 11");
+                            return chain.filter(exchange);
+                        } else {
+                            // Authentication failed, handle accordingly (e.g., return an unauthorized response)
+                        	System.out.println("get response 22");
+                        	return exchange.getResponse().setComplete();
+                        }
+                    });
+	}
+}

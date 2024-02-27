@@ -1,0 +1,10 @@
+package com.hotelService;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class HotelService {
+	public HotelBean getHotelRatingDetails(Integer hotelId) {
+		
+	}
+}

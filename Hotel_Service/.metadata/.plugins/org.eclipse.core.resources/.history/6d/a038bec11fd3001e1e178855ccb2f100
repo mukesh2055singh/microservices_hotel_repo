@@ -1,0 +1,29 @@
+package com.hotelService;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
+@RestController
+@RequestMapping("/hotel")
+public class HotelController {
+	@GetMapping("/{hotelId}")
+	@CircuitBreaker(name="hotelRatingBreaker",fallbackMethod="hotelRatingFallBack")
+	public ResponseEntity<HotelBean> getRatingByUser(@PathVariable("hotelId") String hotelId){
+		HotelBean hotelBean=new HotelBean();
+		System.out.println("hotelId--:"+hotelId);
+		return ResponseEntity.ok(hotelBean);
+	}
+	
+	public ResponseEntity<HotelBean> hotelRatingFallBack(String hotelId,Exception e){
+		System.out.println("fallback method called--:"+hotelId);
+		HotelBean hotelBean=new HotelBean();
+		System.out.println("hotelId--:"+hotelId);
+		return ResponseEntity.ok(hotelBean);
+	}
+	
+}

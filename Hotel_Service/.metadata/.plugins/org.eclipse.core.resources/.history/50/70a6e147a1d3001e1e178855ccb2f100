@@ -1,0 +1,69 @@
+spring.datasource.url=jdbc:mysql://localhost:3306/hotel_microservices
+spring.datasource.username=root
+spring.datasource.password=root
+
+server.port=8086
+
+spring.application.name=hotel-app
+
+#circuit breaker design pattern
+management.health.circuitbreakers.enabled=true
+management.endpoints.web.exposure.include=health
+management.endpoint.health.show-details=always
+resilience4j.circuitbreaker.instances.hotelRatingBreaker.register-health-indicator=true
+resilience4j.circuitbreaker.instances.hotelRatingBreaker.event-consumer-buffer-size=10
+resilience4j.circuitbreaker.instances.hotelRatingBreaker.failure-rate-threshold=50
+resilience4j.circuitbreaker.instances.hotelRatingBreaker.minimum-number-of-calls=5
+resilience4j.circuitbreaker.instances.hotelRatingBreaker.automatic-transition-from-open-to-half-open-enabled=true
+resilience4j.circuitbreaker.instances.hotelRatingBreaker.wait-duration-in-open-state=6s
+resilience4j.circuitbreaker.instances.hotelRatingBreaker.permitted-number-of-calls-in-half-open-state=3
+resilience4j.circuitbreaker.instances.hotelRatingBreaker.sliding-window-size=10
+resilience4j.circuitbreaker.instances.hotelRatingBreaker.sliding-window-type=COUNT_BASED
+
+#retry
+resilience4j.retry.instances.hotelRatingService.max-attempts=3
+resilience4j.retry.instances.hotelRatingService.wait-duration=5s
+
+#rate limiter
+resilience4j.ratelimiter.instances.hotelRatingRatelimiter.limit-refresh-period=4s
+resilience4j.ratelimiter.instances.hotelRatingRatelimiter.limit-for-period=2
+resilience4j.ratelimiter.instances.hotelRatingRatelimiter.timeout-duration=0s
+
+
+
+#spring.kafka.bootstrap-servers=localhost:9092
+#spring.kafka.consumer.group-id=group-1
+#spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+#for string value
+#spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+
+#for object value
+#spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+#spring.kafka.consumer.value-deserializer=org.springframework.kafka.support.serializer.JsonDeserializer
+#spring.kafka.consumer.value-deserializer=org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+#spring.kafka.consumer.properties.spring.json.trusted.packages=com
+#spring.kafka.consumer.properties.spring.json.trusted.packages=*
+
+
+
+#swagger ui
+#springfox.documentation.swagger.v2.path=/swagger-ui.html
+
+# for zipkin server
+# Enable Spring Cloud Sleuth
+spring.sleuth.enabled=true
+# Set the sampler probability (1.0 means 100% sampling, 0.1 means 10% sampling)
+spring.sleuth.sampler.probability=1.0
+# Configure Zipkin server URL
+spring.zipkin.base-url=http://localhost:9411/
+logging.level.org.springframework.cloud.sleuth=DEBUG
+spring.main.allow-circular-references=true
+
+#spring.mvc.pathmatch.matching-strategy = ANT_PATH_MATCHER
+
+#elk stack configuration
+#logging.level.root=INFO
+#logging.level.org.springframework=INFO
+#logging.level.com=DEBUG
+#logging.file.path=C:\docker_file\
+#logging.file.name=elk_stack.log
